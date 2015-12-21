@@ -1,0 +1,20 @@
+#!/bin/sh
+
+# add local executables to PATH
+PATH=$(npm bin):$PATH
+VARS=$(cat .env)
+
+# clean dist folder
+rm -Rf dist/*
+
+# enable livereload
+livereloadx dist/ --exclude '*.js' > /dev/null &
+
+# watch JS
+env $VARS webpack-dev-server --content-base dist/ --inline --hot --devtool eval-source-map --no-info &
+
+# generate and watch styles 
+stylus app/index.styl -o dist/index.css --use ./node_modules/poststylus --with "['autoprefixer']" --watch > /dev/null &
+
+# start server
+env $VARS nodemon --watch app/ --debug -e js --exec babel-node -- app/server.js
