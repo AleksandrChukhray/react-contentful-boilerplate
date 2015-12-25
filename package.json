@@ -33,9 +33,7 @@
     "react": "^0.14.3",
     "react-dom": "^0.14.3",
     "react-helmet": "^2.2.0",
-    "react-redux": "^4.0.2",
     "react-router": "^1.0.2",
-    "redux": "^3.0.5",
     "sha1": "^1.1.1",
     "stylus": "^0.53.0",
     "webpack": "^1.12.9"
