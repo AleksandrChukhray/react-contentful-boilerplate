@@ -5,5 +5,5 @@ if [ "${NODE_ENV}" = "production" ]; then
   # build webpack
   webpack
   # generate and watch styles
-  stylus app/index.styl -o dist/index.css --use ./node_modules/poststylus --with "['autoprefixer']" --compress > /dev/null
+  stylus app/index.styl -o static/dist/index.css --use ./node_modules/poststylus --with "['autoprefixer']" --compress > /dev/null
 fi

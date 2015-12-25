@@ -9,6 +9,38 @@ var jsxLoaders = process.env.NODE_ENV === 'development'
   ? ['react-hot', 'babel-loader']
   : ['babel-loader'];
 
+var plugins = [
+  new webpack.EnvironmentPlugin('NODE_ENV', 'SERVER_URL'),
+  new webpack.IgnorePlugin(/vertx/)
+];
+
+// Minifier / uglifier
+var minifier = new webpack.optimize.UglifyJsPlugin({
+  minimize: true,
+  compress: {
+    warnings: false
+    // drop_console: false (default)
+    // Stripping `console` statements is handled by strip-loader, which gives
+    // us more control over `console.log`, `console.error`, etc in production.
+  }
+});
+
+// Prepare React for production by stripping out warnings and other
+// dev-only code paths. See http://git.io/vROdo and
+// https://facebook.github.io/react/downloads.html#npm
+var reactProdMode = new webpack.DefinePlugin({
+  'process.env': {
+    // This has effect on the react lib size
+    NODE_ENV: JSON.stringify('production')
+  }
+});
+
+if (process.env.NODE_ENV !== 'development') {
+  plugins.push(minifier);
+  plugins.push(reactProdMode);
+}
+
+
 module.exports = {
   entry: './app/browser.js',
   output: {
@@ -34,8 +66,5 @@ module.exports = {
   resolve: {
     extensions: ['', '.js', '.jsx', '.json']
   },
-  plugins: [
-    new webpack.EnvironmentPlugin('NODE_ENV', 'SERVER_URL'),
-    new webpack.IgnorePlugin(/vertx/)
-  ]
+  plugins: plugins
 };
