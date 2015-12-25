@@ -11,7 +11,6 @@ function getEntries(options) {
   return new Promise(resolve => {
     let key = memcached.keyFor(options);
     memcached.fetch(key, process.env.CACHE_TIME || 30, () => {
-      console.log('Fetching new cache info for:', key);
       let isPreview = process.env.PREVIEW && JSON.parse(process.env.PREVIEW);
       let clientOptions = {
         space: process.env.SPACE_ID,
@@ -24,15 +23,19 @@ function getEntries(options) {
       };
       const client = contentful.createClient(clientOptions);
       return client.entries(options).then(data => data);
-    }).then(data => resolve(data));
+    }).then(data => resolve(data))
+      .catch(err => {
+        let error = new Error(err);
+        throw error;
+      });
   });
 }
 
 /* GET page list. */
-router.get('/pages', function(req, res, next) {
+router.get('/pages', (req, res, next) => {
   const options = {
-    content_type: 'page',
-    include: 0
+    'content_type': 'page',
+    'include': 0
   };
   getEntries(options).then(data => {
     res.json(data);
@@ -40,10 +43,32 @@ router.get('/pages', function(req, res, next) {
 });
 
 /* GET single page. */
-router.get('/page', function(req, res, next) {
+router.get('/page', (req, res, next) => {
   const options = {
     'content_type': 'page',
     'fields.slug': req.query.page_id
+  };
+  getEntries(options).then(data => {
+    res.json(data[0]);
+  });
+});
+
+/* GET project list */
+router.get('/projects', (req, res, next) => {
+  const options = {
+    'content_type': 'project',
+    'include': 0
+  };
+  getEntries(options).then(data => {
+    res.json(data);
+  });
+});
+
+/* GET single project */
+router.get('/project', (req, res, next) => {
+  const options = {
+    'content_type': 'project',
+    'fields.slug': req.query.project_id
   };
   getEntries(options).then(data => {
     res.json(data[0]);

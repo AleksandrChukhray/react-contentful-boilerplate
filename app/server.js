@@ -6,7 +6,7 @@ import favicon from 'express-favicon';
 const app = express();
 
 app.use(favicon(`${__dirname}/favicon.ico`));
-app.use('/static', express.static(`${__dirname}/../dist`));
+app.use('/static', express.static(`${__dirname}/../static`));
 app.use('/api', contentfulApi);
 app.use(render);
 

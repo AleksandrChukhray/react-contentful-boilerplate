@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 
 class Navigation extends React.Component {
   render() {
-    const { pages } = this.props;
+    const { pages, projects } = this.props;
 
     return (
       <nav className='navigation'>
@@ -14,6 +14,18 @@ class Navigation extends React.Component {
               <Link to={`/${page.fields.slug}`}>{page.fields.title}</Link>
             </li>
           ))}
+          {projects.length &&
+            <li>
+              <Link to='/projects'>Projects</Link>
+              {projects.map(project => 
+                <Link 
+                  to={`/projects/${project.fields.slug}`}
+                  key={project.sys.id}>
+                  {project.fields.title}
+                </Link>
+              )}
+            </li>
+          }
         </ul>
       </nav>
     );
@@ -21,11 +33,13 @@ class Navigation extends React.Component {
 }
 
 Navigation.propTypes = {
-  pages: React.PropTypes.array
+  pages: React.PropTypes.array,
+  projects: React.PropTypes.array,
 };
 
 Navigation.defaultProps = {
-  pages: []
+  pages: [],
+  projects: [],
 };
 
 export default Navigation;

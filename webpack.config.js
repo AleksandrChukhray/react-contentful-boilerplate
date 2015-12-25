@@ -3,7 +3,7 @@ var webpack = require('webpack');
 
 var publicPath = process.env.NODE_ENV === 'development'
   ? 'http://localhost:8080/'
-  : '/static/';
+  : '/static/dist';
 
 var jsxLoaders = process.env.NODE_ENV === 'development'
   ? ['react-hot', 'babel-loader']
@@ -12,7 +12,7 @@ var jsxLoaders = process.env.NODE_ENV === 'development'
 module.exports = {
   entry: './app/browser.js',
   output: {
-    path: path.join(__dirname, '/dist'),
+    path: path.join(__dirname, 'static/dist'),
     publicPath: publicPath,
     filename: 'bundle.js',
     chunkFilename: '[name].js'

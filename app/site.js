@@ -12,12 +12,12 @@ class Site extends React.Component {
           {meta && meta.toComponent()}
           {link && link.toComponent()}
           {script && script.toComponent()}
-          <link rel='stylesheet' href='/static/index.css' />
+          <link rel='stylesheet' href='/static/dist/index.css' />
         </head>
         <body>
           <div id='site' className='site' dangerouslySetInnerHTML={{ __html: this.props.app }} />
           <script dangerouslySetInnerHTML={{ __html: `window.__ASYNC_PROPS__ = ${JSON.stringify(JSON.stringify(asyncProps.propsArray))};` }} />
-          <script src={process.env.NODE_ENV === 'development' ? 'http://localhost:8080/bundle.js' : '/static/bundle.js'} />
+          <script src={process.env.NODE_ENV === 'development' ? 'http://localhost:8080/bundle.js' : '/static/dist/bundle.js'} />
         </body>
       </html>
     );

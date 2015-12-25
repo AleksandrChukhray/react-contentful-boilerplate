@@ -12,6 +12,14 @@ function ApiClient(session = {}, SERVER_ENV = {}) {
     getPages() {
       return request('get', `/api/pages`);
     },
+
+    getProject(params) {
+      return request('get', '/api/project', params);
+    },
+
+    getProjects() {
+      return request('get', `/api/projects`);
+    },
   };
 
   function resolve(object) {

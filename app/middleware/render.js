@@ -22,13 +22,20 @@ export default function (request, response) {
         .redirect(302, redirectLocation.pathname + redirectLocation.search);
     } else if (renderProps) {
       loadPropsOnServer(renderProps, (err, asyncProps, scriptTag) => {
-        let app = renderToString(<AsyncProps {...renderProps} {...asyncProps} />);
-        let head = Helmet.rewind();
-        let site = renderToStaticMarkup(<Site head={head} app={app} asyncProps={asyncProps} />);
+        try {
+          let app = renderToString(<AsyncProps {...renderProps} {...asyncProps} />);
+          let head = Helmet.rewind();
+          let site = renderToStaticMarkup(<Site head={head} app={app} asyncProps={asyncProps} />);
 
-        response
-          .status(200)
-          .send(`<!DOCTYPE html>${site}`);
+          response
+            .status(200)
+            .send(`<!DOCTYPE html>${site}`);
+        } catch(err) {
+          let error = new Error(err);
+          response
+            .status(500)
+            .send(error.message);
+        }
       });
     } else {
       response

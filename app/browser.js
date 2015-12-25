@@ -8,6 +8,9 @@ import routes from './routes';
 import createBrowserHistory from 'history/lib/createBrowserHistory'
 
 window.onload = () => {
+  window.picturefill = require('picturefill');
+  require('picturefill/dist/plugins/mutation/pf.mutation');
+
   let history = createBrowserHistory()
   render(<Router RoutingContext={AsyncProps} history={history}>{routes}</Router>, document.getElementById('site'));
 }
