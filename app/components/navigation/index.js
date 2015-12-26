@@ -16,14 +16,16 @@ class Navigation extends React.Component {
           ))}
           {projects.length &&
             <li>
-              <Link to='/projects'>Projects</Link>
+              <span>Projects</span>
+              <ul>
               {projects.map(project => 
-                <Link 
-                  to={`/projects/${project.fields.slug}`}
-                  key={project.sys.id}>
-                  {project.fields.title}
-                </Link>
+                <li key={project.sys.id}>
+                  <Link to={`/projects/${project.fields.slug}`}>
+                    {project.fields.title}
+                  </Link>
+                </li>
               )}
+              </ul>
             </li>
           }
         </ul>

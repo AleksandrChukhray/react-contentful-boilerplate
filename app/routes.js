@@ -5,7 +5,6 @@ import AsyncProps from 'async-props'
 import App from './views/app';
 import Home from './views/home';
 import Page from './views/page';
-import ProjectIndex from './views/project-index';
 import ProjectShow from './views/project-show';
 
 import NoMatch from './components/no-match';
@@ -13,7 +12,6 @@ import NoMatch from './components/no-match';
 const routes = (
   <Router RoutingContext={AsyncProps} component={App}>
     <Route path="/" component={Home}/>
-    <Route path="/projects" component={ProjectIndex} />
     <Route path="/projects/:project_id" component={ProjectShow} />
     <Route path=":page_id" component={Page}/>
     <Route path="*" component={NoMatch}/>

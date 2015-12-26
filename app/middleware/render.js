@@ -26,7 +26,6 @@ export default function (request, response) {
         try {
           let statsPath = path.join(__dirname, "../../static/dist", "stats.json");
           let stats = JSON.parse(require("fs").readFileSync(statsPath, 'utf8'));
-          console.log(stats.hash);
           let app = renderToString(<AsyncProps {...renderProps} {...asyncProps} />);
           let head = Helmet.rewind();
           let site = renderToStaticMarkup(<Site head={head} app={app} asyncProps={asyncProps} assetHash={stats.hash} />);
