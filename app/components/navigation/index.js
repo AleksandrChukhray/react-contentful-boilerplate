@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router';
 
+import ResponsiveImage from '../responsive-image';
+
 class Navigation extends React.Component {
   render() {
     const { pages, projects } = this.props;
@@ -22,6 +24,19 @@ class Navigation extends React.Component {
                 <li key={project.sys.id}>
                   <Link to={`/projects/${project.fields.slug}`}>
                     {project.fields.title}
+                    {project.fields.teaserImage && 
+                      <ResponsiveImage 
+                        ratio='16x9'
+                        renditions={[
+                          {
+                            options: { w: 1000 },
+                            query: '(min-width: 600px)'
+                          },
+                          {
+                            options: { w: 600 }
+                          }
+                        ]} 
+                        image={project.fields.teaserImage} />}
                   </Link>
                 </li>
               )}

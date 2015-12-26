@@ -10,7 +10,7 @@ function ApiClient(session = {}, SERVER_ENV = {}) {
     },
 
     getPages() {
-      return request('get', `/api/pages`);
+      return request('get', '/api/pages');
     },
 
     getProject(params) {
@@ -18,8 +18,12 @@ function ApiClient(session = {}, SERVER_ENV = {}) {
     },
 
     getProjects() {
-      return request('get', `/api/projects`);
+      return request('get', '/api/projects');
     },
+
+    getAsset(params) {
+      return request('get', '/api/asset', params);
+    }
   };
 
   function resolve(object) {

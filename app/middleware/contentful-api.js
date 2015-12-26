@@ -31,6 +31,36 @@ function getEntries(options) {
   });
 }
 
+function getAsset(id) {
+  return new Promise(resolve => {
+    memcached.fetch(id, process.env.CACHE_TIME || 30, () => {
+      let isPreview = process.env.PREVIEW && JSON.parse(process.env.PREVIEW);
+      let clientOptions = {
+        space: process.env.SPACE_ID,
+        accessToken: isPreview
+          ? process.env.PREVIEW_ACCESS_TOKEN
+          : process.env.ACCESS_TOKEN,
+        host: isPreview
+          ? 'preview.contentful.com'
+          : 'cdn.contentful.com'
+      };
+      const client = contentful.createClient(clientOptions);
+      return client.asset(id).then(data => data);
+    }).then(data => resolve(data))
+      .catch(err => {
+        let error = new Error(err);
+        throw error;
+      });
+  });
+}
+
+/* GET asset */
+router.get('/asset', (req, res, next) => {
+  getAsset(req.query.id).then(data => {
+    res.json(data);
+  });
+});
+
 /* GET page list. */
 router.get('/pages', (req, res, next) => {
   const options = {
