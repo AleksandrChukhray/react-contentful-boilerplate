@@ -1,0 +1,24 @@
+.responsive-image {
+  displaY: inline-block;
+  width: 100%;
+  position: relative;
+}
+
+.responsive-image__picture {
+  display: inline-block;
+  width: 100%;
+  height: auto;
+}
+
+.responsive-image__picture--ratio {
+  height: 0;
+  overflow: hidden;
+
+  img, source {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+}

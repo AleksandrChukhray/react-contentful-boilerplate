@@ -1,11 +1,12 @@
 import React from 'react';
+import classnames from 'classnames';
 import ApiClient from '../../middleware/api-client';
 
 class ResponsiveImage extends React.Component {
   constructor(props) {
     super(props);
 
-    let ratios = this.props.ratio && this.props.ratio.split('x');
+    let ratios = props.ratio && props.ratio.split('x');
     this.state = {
       ratio: ratios ? ratios[1] / ratios[0] : null
     };
@@ -22,7 +23,7 @@ class ResponsiveImage extends React.Component {
 
     const variables = {
       ...options,
-      'h': ratio && options.w ? Math.round(ratio / options.w) : null,
+      'h': ratio ? Math.round(options.w * ratio) : null,
       'fit': ratio ? 'thumb' : options.fit
     };
 
@@ -53,20 +54,31 @@ class ResponsiveImage extends React.Component {
 
     const initialRendition = renditions.pop();
 
+    const classes = classnames({
+      'responsive-image__picture': true,
+      'responsive-image__picture--ratio': ratio,
+    });
+
+    const styles = {
+      paddingTop: ratio ? `${ratio * 100}%` : null
+    };
+
     if (!fields) {
       return null;
     }
 
     return (
-      <picture className={className}>
-        {renditions.length > 0 && renditions.map((rendition, index) => 
-          <source 
-            srcSet={this.createRendition(rendition)} 
-            media={rendition.query}
-            key={`${image.sys.id}--${index}`}/>
-        )}
-        {initialRendition && <img srcSet={this.createRendition(initialRendition)} />}
-      </picture>
+      <div className={`responsive-image ${className}`}>
+        <picture className={classes} style={styles}>
+          {renditions.length > 0 && renditions.map((rendition, index) => 
+            <source 
+              srcSet={this.createRendition(rendition)} 
+              media={rendition.query}
+              key={`${image.sys.id}--${index}`}/>
+          )}
+          {initialRendition && <img srcSet={this.createRendition(initialRendition)} />}
+        </picture>
+      </div>
     );
   }
 }
