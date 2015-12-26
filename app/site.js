@@ -2,8 +2,8 @@ import React from 'react';
 
 class Site extends React.Component {
   render() {
-    const { title, base, meta, link,   script } = this.props.head;
-    const { asyncProps } = this.props;
+    const { title, base, meta, link, script } = this.props.head;
+    const { asyncProps, assetHash } = this.props;
     return (
       <html>
         <head>
@@ -17,7 +17,7 @@ class Site extends React.Component {
         <body>
           <div id='site' className='site' dangerouslySetInnerHTML={{ __html: this.props.app }} />
           <script dangerouslySetInnerHTML={{ __html: `window.__ASYNC_PROPS__ = ${JSON.stringify(JSON.stringify(asyncProps.propsArray))};` }} />
-          <script src={process.env.NODE_ENV === 'development' ? 'http://localhost:8080/bundle.js' : '/static/dist/bundle.js'} />
+          <script src={process.env.NODE_ENV === 'development' ? `http://localhost:8080/bundle.${assetHash}.js` : `/static/dist/bundle.${assetHash}.js`} />
         </body>
       </html>
     );

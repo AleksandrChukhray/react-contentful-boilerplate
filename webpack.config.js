@@ -11,7 +11,14 @@ var jsxLoaders = process.env.NODE_ENV === 'development'
 
 var plugins = [
   new webpack.EnvironmentPlugin('NODE_ENV', 'SERVER_URL'),
-  new webpack.IgnorePlugin(/vertx/)
+  new webpack.IgnorePlugin(/vertx/),
+  function() {
+    this.plugin("done", function(stats) {
+      require("fs").writeFileSync(
+        path.join(__dirname, "static/dist", "stats.json"),
+        JSON.stringify(stats.toJson()));
+    });
+  }
 ];
 
 // Minifier / uglifier
@@ -46,8 +53,8 @@ module.exports = {
   output: {
     path: path.join(__dirname, 'static/dist'),
     publicPath: publicPath,
-    filename: 'bundle.js',
-    chunkFilename: '[name].js'
+    filename: 'bundle.[hash].js',
+    chunkFilename: '[name].[hash].js'
   },
   module: {
     loaders: [
