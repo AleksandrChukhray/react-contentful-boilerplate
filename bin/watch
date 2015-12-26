@@ -8,7 +8,7 @@ VARS=$(cat .env)
 rm -Rf static/dist/*
 
 # enable livereload
-livereloadx static/dist/ --exclude '*.js' > /dev/null &
+livereloadx static/ --exclude '*.js' > /dev/null &
 
 # watch JS
 env $VARS webpack-dev-server --content-base dist/ --inline --hot --devtool eval-source-map --no-info &
@@ -17,4 +17,4 @@ env $VARS webpack-dev-server --content-base dist/ --inline --hot --devtool eval-
 stylus app/index.styl -o static/dist/index.css --use ./node_modules/poststylus --with "['autoprefixer']" --watch > /dev/null &
 
 # start server
-env $VARS nodemon --watch app/ --debug -e js --exec babel-node -- app/server.js
+env $VARS nodemon --watch app/server.js --watch app/middleware --debug -e js --exec babel-node -- app/server.js
