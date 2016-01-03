@@ -16,7 +16,7 @@ class Site extends React.Component {
         </head>
         <body>
           <div id='site' className='site' dangerouslySetInnerHTML={{ __html: this.props.app }} />
-          <script dangerouslySetInnerHTML={{ __html: `window.__ASYNC_PROPS__ = ${JSON.stringify(JSON.stringify(asyncProps.propsArray))};` }} />
+          <script dangerouslySetInnerHTML={{ __html: `window.__ASYNC_PROPS__ = ${JSON.stringify(asyncProps.propsArray)};` }} />
           <script src={process.env.NODE_ENV === 'development' ? `http://localhost:8080/bundle.${assetHash}.js` : `/static/dist/bundle.${assetHash}.js`} />
         </body>
       </html>

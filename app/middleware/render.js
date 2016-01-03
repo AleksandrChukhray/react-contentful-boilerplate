@@ -28,7 +28,13 @@ export default function (request, response) {
           let stats = JSON.parse(require("fs").readFileSync(statsPath, 'utf8'));
           let app = renderToString(<AsyncProps {...renderProps} {...asyncProps} />);
           let head = Helmet.rewind();
-          let site = renderToStaticMarkup(<Site head={head} app={app} asyncProps={asyncProps} assetHash={stats.hash} />);
+          let site = renderToStaticMarkup(
+            <Site 
+              head={head}
+              app={app}
+              asyncProps={asyncProps}
+              assetHash={stats.hash} />
+          );
 
           response
             .status(200)
